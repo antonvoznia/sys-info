@@ -1,20 +1,13 @@
-
-#Get-ProcessWithUser | ConvertTo-Json
-
 function Show-Help {
     @"
-MyScript.ps1 [-Help] [-Verbose] [-OutputFile <path>]
+sys-info.ps1 [-Help] [-Verbose] [-Json] [-OutputFile <path>]
 
 Options:
   -Help         Show this help message
-  -Verbose      Enable verbose output
   -OutputFile   Write results to the given file
+  -Json         Output in JSON format
 "@ | Write-Host
     exit 0
-}
-
-function Print-ProcessTableInfo {
-    Get-ProcessWithUser | Format-Table -AutoSize
 }
 
 function Main {
@@ -26,7 +19,19 @@ function Main {
         Write-Host "Verbose mode is ON"
     }
 
-    Print-ProcessTableInfo
+    if ($Json) {
+        $output = Get-ProcessInfoJson
+    } else {
+        $output = Get-ProcessInfoTable
+    }
+
+    Write-Output $output
+
+    if (($OutputFile) -and ($output)) {
+        Out-File -FilePath $OutputFile -InputObject $output -Encoding ascii
+    }
+
+    exit 0
 
     if ($OutputFile) {
         $output | Out-File -FilePath $OutputFile -Encoding UTF8

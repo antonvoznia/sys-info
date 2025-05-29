@@ -3,16 +3,20 @@ param (
     [switch]$Help,
 
     [Parameter(Mandatory = $false)]
-    [string]$OutputFile
+    [string]$OutputFile,
+
+    [Parameter(Mandatory = $false)]
+    [switch]$Json
 )
 
 # In script scope (outside param)
-$knownParams = @('Help', 'Verbose', 'OutputFile')
+$knownParams = @('Help', 'Verbose', 'OutputFile', 'Json')
 $passedParams = $PSCmdlet.MyInvocation.BoundParameters.Keys
 
 foreach ($param in $passedParams) {
     if ($param -notin $knownParams) {
-        throw "Unknown parameter: -$param"
+        Write-Output "Unknown parameter: -$param"
+        exit 1
     }
 }
 

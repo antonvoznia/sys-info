@@ -15,16 +15,37 @@ function Get-UserOfProcess($proc) {
 }
 
 function Get-ProcessWithUser {
-    $processes = Get-WmiObject Win32_Process
+    # Fetch all WMI process info just once
+    $wmiProcesses = Get-WmiObject Win32_Process
+    $wmiMap = @{}
+    foreach ($w in $wmiProcesses) {
+        $wmiMap[$w.ProcessId] = $w
+    }
+
+    # Get live process data
+    $processes = Get-Process | Sort-Object -Property CPU -Descending
+
     foreach ($proc in $processes) {
-        $owner = Get-UserOfProcess $proc
+        $wmi = $wmiMap[$proc.Id]
+        $owner = if ($wmi) { Get-UserOfProcess $wmi } else { "N/A" }
+        $path  = if ($wmi) { $wmi.ExecutablePath } else { $null }
+
         [PSCustomObject]@{
-            Id         = $proc.ProcessId
-            Name       = $proc.Name
-            CPU        = $proc.CPU
-            WorkingSet = $proc.WorkingSetSize
+            Id         = $proc.Id
+            Name       = $proc.ProcessName
+            CPU        = [math]::Round($proc.CPU, 2)
+            WorkingSet = [math]::Round($proc.WorkingSet64 / 1MB, 2)
             User       = $owner
-            Path       = $proc.ExecutablePath
+            Path       = $path
         }
     }
+}
+
+
+function Get-ProcessInfoTable {
+    Get-ProcessWithUser | Format-Table -AutoSize
+}
+
+function Get-ProcessInfoJson {
+    Get-ProcessWithUser | ConvertTo-Json
 }
