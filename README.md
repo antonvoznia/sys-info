@@ -10,6 +10,8 @@ It displays:
 
 The default output is shown in table format.
 
+All functionality is implemented in a single file: `sys-info.ps1`
+
 ## Available Flags
 * `-Help` — Show help information
 * `-OutputFile` <path> — Write output to a file in addition to console
