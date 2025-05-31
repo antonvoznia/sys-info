@@ -1,7 +1,7 @@
 $ScriptName = "sys-info.ps1"
 $ScriptPath = "$PSScriptRoot\..\$ScriptName"
 
-# Evaluate Test and print resalts to terminal
+# Evaluate Test and print results to terminal
 function EvalTest($testName, $condition) {
     if ($condition) {
         Write-Host "[PASS] $testName" -ForegroundColor Green
