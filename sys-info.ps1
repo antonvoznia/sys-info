@@ -58,7 +58,7 @@ function Get-ProcessInfoTable {
 }
 
 function Get-ProcessInfoJson {
-    Get-ProcessWithUser | ConvertTo-Json
+    Get-ProcessWithser | ConvertTo-Json
 }
 function Show-Help {
     @"
