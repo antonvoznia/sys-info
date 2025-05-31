@@ -43,8 +43,10 @@ This project uses GitHub Actions which are triggered:
 
 The CI pipeline runs sanity tests defined in the tests/ directory.
 You can also run the tests locally using PowerShell.
+![obrazek](https://github.com/user-attachments/assets/28f95c7f-1c91-4b2a-90e7-f96430816032)
+
 
 ## Demo Pull Requests
 Two pull requests were created to demonstrate how GitHub Actions works:
-Passed PR
-Failed PR
+✅ [Passed PR](https://github.com/antonvoznia/sys-info/pull/3)
+❌ [Failed PR](https://github.com/antonvoznia/sys-info/pull/2)
