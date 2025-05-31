@@ -14,12 +14,7 @@ jobs:
     - name: Checkout repo
       uses: actions/checkout@v3
 
-    - name: Install Pester
-      shell: pwsh
-      run: |
-        Install-Module -Name Pester -Force -Scope CurrentUser -SkipPublisherCheck
-
     - name: Run tests
       shell: pwsh
       run: |
-        Invoke-Pester -Path ./tests/sanity-tests.ps1 -Output Detailed
+        ./tests/sanity-tests.ps1

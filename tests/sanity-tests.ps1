@@ -1,12 +1,16 @@
 $ScriptName = "sys-info.ps1"
 $ScriptPath = "$PSScriptRoot\..\$ScriptName"
+$FailConst = 1
+$PassConst = 0
 
+$TestResult = $PassConst
 # Evaluate Test and print results to terminal
 function EvalTest($testName, $condition) {
     if ($condition) {
         Write-Host "[PASS] $testName" -ForegroundColor Green
     } else {
         Write-Host "[FAIL] $testName" -ForegroundColor Red
+        $TestResult = $FailConst
     }
 }
 
@@ -77,3 +81,5 @@ CompareHelpTest
 CheckDefaultOutputTest
 CheckColumnsTest
 CheckValidityOfJsonTest
+
+exit $TestResult
