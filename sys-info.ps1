@@ -10,7 +10,7 @@ param (
 )
 
 # In script scope (outside param)
-$knownParams = @('Help', 'Verbose', 'OutputFile', 'Json')
+$knownParams = @('Help', 'OutputFile', 'Json')
 $passedParams = $PSCmdlet.MyInvocation.BoundParameters.Keys
 
 foreach ($param in $passedParams) {
