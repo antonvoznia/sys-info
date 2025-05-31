@@ -34,7 +34,7 @@ function Test-JsonCompat {
 }
 
 # Sanity test functions
-function CompareHelpUT {
+function CompareHelpTest {
     $OriginalHelp = @"
 sys-info.ps1 [-Help] [-Verbose] [-Json] [-OutputFile <path>]
 
@@ -48,13 +48,13 @@ Options:
     EvalTest $MyInvocation.MyCommand.Name ($Output -eq $OriginalHelp)
 }
 
-function CheckDefaultOutputUT {
+function CheckDefaultOutputTest {
     $Output = GetProcessTable
 
     EvalTest $MyInvocation.MyCommand.Name ($Output)
 }
 
-function CheckColumnsUT {
+function CheckColumnsTest {
     $Output = GetProcessTable | Out-String
     $Result = $Output.Contains("Id") -and $Output.Contains("Name") `
     -and $Output.Contains("CPU") -and $Output.Contains("User") `
@@ -63,7 +63,7 @@ function CheckColumnsUT {
     EvalTest $MyInvocation.MyCommand.Name ($Result)
 }
 
-function CheckValidityOfJsonUT {
+function CheckValidityOfJsonTest {
     $Output = GetProcessJson
     $Result = Test-JsonCompat $Output
 
