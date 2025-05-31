@@ -48,5 +48,5 @@ You can also run the tests locally using PowerShell.
 
 ## Demo Pull Requests
 Two pull requests were created to demonstrate how GitHub Actions works:
-✅ [Passed PR](https://github.com/antonvoznia/sys-info/pull/3)
-❌ [Failed PR](https://github.com/antonvoznia/sys-info/pull/2)
+* ✅ [Passed PR](https://github.com/antonvoznia/sys-info/pull/3)
+* ❌ [Failed PR](https://github.com/antonvoznia/sys-info/pull/2)
