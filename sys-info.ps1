@@ -77,10 +77,6 @@ function Main {
         Show-Help
     }
 
-    if ($Verbose) {
-        Write-Host "Verbose mode is ON"
-    }
-
     if ($Json) {
         $output = Get-ProcessInfoJson
     } else {
@@ -91,15 +87,6 @@ function Main {
 
     if (($OutputFile) -and ($output)) {
         Out-File -FilePath $OutputFile -InputObject $output -Encoding ascii
-    }
-
-    exit 0
-
-    if ($OutputFile) {
-        $output | Out-File -FilePath $OutputFile -Encoding UTF8
-        if ($Verbose) { Write-Host "Output written to $OutputFile" }
-    } else {
-        Write-Host $output
     }
 }
 
