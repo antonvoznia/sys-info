@@ -37,6 +37,9 @@ All functionality is implemented in a single file: `sys-info.ps1`
 ]
 ```
 
+## JSON visualizer
+To visualize the JSON output, you can use a [simple tool](https://github.com/antonvoznia/json-process-visualizer).
+
 ## CI: GitHub Actions
 
 This project uses GitHub Actions which are triggered:
