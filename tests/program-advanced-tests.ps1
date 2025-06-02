@@ -72,7 +72,7 @@ function Test-RunProcessAndClose {
 }
 
 function Test-MemUsage200MB {
-    $pwsh = Start-Process $PWSHFullName -ArgumentList '-NoExit', '-Command', "`$mem_alloc='a'*100MB" -PassThru
+    $pwsh = Start-Process $PWSHFullName -ArgumentList '-NoExit', '-Command', "`$mem_alloc='a'*200MB" -PassThru
     # Wait until all memory (200 MB) will be allocated.
     # 200 = 2bytes per simbol * 100 symbols
     sleep 2
