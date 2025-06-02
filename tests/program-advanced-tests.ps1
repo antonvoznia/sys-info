@@ -32,9 +32,6 @@ function Write-TableToFile {
 $CMDFullName = "cmd.exe"
 $CMDName = "cmd"
 
-$NotepadFullName = "Notepad.exe"
-$NotepadName = "Notepad"
-
 $PWSHFullName = "powershell.exe"
 $PWSHName = "powershell"
 
@@ -54,7 +51,7 @@ function Test-NewProcessRun {
 
 function Test-2DifferentProcessesRun {
     $cmd1 = Start-Proc $CMDFullName
-    $cmd2 = Start-Proc $NotepadFullName
+    $cmd2 = Start-Proc $CMDFullName
     $outputCMD1 = Get-ProcessTable | findstr $CMDName | findstr $cmd1.Id
     $outputCMD2 = Get-ProcessTable | findstr $CMDName | findstr $cmd2.Id
     EvalTest $MyInvocation.MyCommand.Name ($outputCMD1 -and $outputCMD2)
