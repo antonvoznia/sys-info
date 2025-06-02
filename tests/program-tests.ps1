@@ -32,7 +32,7 @@ function Write-TableToFile {
 $CMDFullName = "cmd.exe"
 $CMDName = "cmd"
 
-$NotepadFullName = "Nodepad.exe"
+$NotepadFullName = "Notepad.exe"
 $NotepadName = "Notepad"
 function Start-Proc($Proc) {
     $app = Start-Process $Proc -PassThru
