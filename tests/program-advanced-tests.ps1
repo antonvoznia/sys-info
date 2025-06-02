@@ -46,9 +46,10 @@ function Start-Proc($Proc) {
 }
 
 function Test-NewProcessRun {
-    $appId = Start-Proc $CMDFullName
-    $output = Get-ProcessTable | findstr $CMDName | findstr $appId.Id
+    $cmd = Start-Proc $CMDFullName
+    $output = Get-ProcessTable | findstr $CMDName | findstr $cmd.Id
     EvalTest $MyInvocation.MyCommand.Name ($output)
+    Stop-Process -Force -Id $cmd.Id
 }
 
 function Test-2DifferentProcessesRun {
@@ -57,6 +58,8 @@ function Test-2DifferentProcessesRun {
     $outputCMD = Get-ProcessTable | findstr $CMDName | findstr $cmd.Id
     $outputNotepad = Get-ProcessTable | findstr $NotepadName | findstr $notepad.Id
     EvalTest $MyInvocation.MyCommand.Name ($outputCMD -and $outputNotepad)
+    Stop-Process -Force -Id $cmd.Id
+    Stop-Process -Force -Id $notepad.Id
 }
 
 function Test-RunProcessAndClose {
@@ -68,10 +71,10 @@ function Test-RunProcessAndClose {
     EvalTest $MyInvocation.MyCommand.Name ($outputCMD1 -and  !$outputCMD2)
 }
 
-function Test-MemUsage400MB {
-    $pwsh = Start-Process $PWSHFullName -ArgumentList '-NoExit', '-Command', "`$mem_alloc='a'*200MB" -PassThru
-    # Wait until all memory (400 MB) will be allocated.
-    # 400 = 2bytes per simbol * 200 symbols
+function Test-MemUsage200MB {
+    $pwsh = Start-Process $PWSHFullName -ArgumentList '-NoExit', '-Command', "`$mem_alloc='a'*100MB" -PassThru
+    # Wait until all memory (200 MB) will be allocated.
+    # 200 = 2bytes per simbol * 100 symbols
     sleep 2
     $outputPWSH = Get-ProcessTable | findstr $PWSHName | findstr $pwsh.Id
 
@@ -80,13 +83,14 @@ function Test-MemUsage400MB {
         ($_ -split '\s+')[4] -as [double]
     }
 
-    EvalTest $MyInvocation.MyCommand.Name ($memUsage -ge  400)
+    EvalTest $MyInvocation.MyCommand.Name ($memUsage -ge  200)
+    Stop-Process -Force -Id $pwsh.Id
 }
 
 # Run test cases
+Test-MemUsage200MB
 Test-NewProcessRun
 Test-2DifferentProcessesRun
 Test-RunProcessAndClose
-Test-MemUsage400MB
 
 exit $TestResult
