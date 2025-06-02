@@ -90,8 +90,8 @@ function Test-MemUsage200MB {
 
 # Run test cases
 Test-MemUsage200MB
-# Test-NewProcessRun
-# Test-2DifferentProcessesRun
-# Test-RunProcessAndClose
+Test-NewProcessRun
+Test-2DifferentProcessesRun
+Test-RunProcessAndClose
 
 exit $TestResult
