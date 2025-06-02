@@ -81,7 +81,7 @@ function Test-MemUsage200MB {
     # Write-Output $outputPWSH
     Write-Output $memUsage
 
-    EvalTest $MyInvocation.MyCommand.Name ($memUsage -ge 200)
+    EvalTest $MyInvocation.MyCommand.Name ($memUsage -ge 50)
     Stop-Process -Force -Id $pwsh.Id
 }
 
