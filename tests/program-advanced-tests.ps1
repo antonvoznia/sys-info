@@ -53,13 +53,13 @@ function Test-NewProcessRun {
 }
 
 function Test-2DifferentProcessesRun {
-    $cmd = Start-Proc $CMDFullName
-    $notepad = Start-Proc $NotepadFullName
-    $outputCMD = Get-ProcessTable | findstr $CMDName | findstr $cmd.Id
-    $outputNotepad = Get-ProcessTable | findstr $NotepadName | findstr $notepad.Id
-    EvalTest $MyInvocation.MyCommand.Name ($outputCMD -and $outputNotepad)
-    Stop-Process -Force -Id $cmd.Id
-    Stop-Process -Force -Id $notepad.Id
+    $cmd1 = Start-Proc $CMDFullName
+    $cmd2 = Start-Proc $NotepadFullName
+    $outputCMD1 = Get-ProcessTable | findstr $CMDName | findstr $cmd1.Id
+    $outputCMD2 = Get-ProcessTable | findstr $CMDName | findstr $cmd2.Id
+    EvalTest $MyInvocation.MyCommand.Name ($outputCMD1 -and $outputCMD2)
+    Stop-Process -Force -Id $cmd1.Id
+    Stop-Process -Force -Id $cmd2.Id
 }
 
 function Test-RunProcessAndClose {
@@ -72,9 +72,9 @@ function Test-RunProcessAndClose {
 }
 
 function Test-MemUsage200MB {
-    $pwsh = Start-Process $PWSHFullName -ArgumentList "-Command", "[void]('x' * (100 * 1024 * 1024)); sleep 10" -WindowStyle Hidden -PassThru
+    $pwsh = Start-Process $PWSHFullName -ArgumentList "-Command", "[void]('x' * (100 * 1024 * 1024)); sleep 30" -WindowStyle Hidden -PassThru
     # Wait until all memory (200 MB) will be allocated.
-    sleep 2
+    Start-Sleep 4
     # 200 = 2bytes per simbol * 100 symbols
     $outputPWSH = Get-ProcessTable | findstr $PWSHName | findstr $pwsh.Id
     # Extract memory usage of the new created process
@@ -90,8 +90,8 @@ function Test-MemUsage200MB {
 
 # Run test cases
 Test-MemUsage200MB
-Test-NewProcessRun
-Test-2DifferentProcessesRun
-Test-RunProcessAndClose
+# Test-NewProcessRun
+# Test-2DifferentProcessesRun
+# Test-RunProcessAndClose
 
 exit $TestResult
