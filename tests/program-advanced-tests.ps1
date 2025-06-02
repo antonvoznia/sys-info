@@ -68,7 +68,7 @@ function Test-RunProcessAndClose {
     EvalTest $MyInvocation.MyCommand.Name ($outputCMD1 -and  !$outputCMD2)
 }
 
-function Test-MemUsage200MB {
+function Test-MemUsage400MB {
     $pwsh = Start-Process $PWSHFullName -ArgumentList '-NoExit', '-Command', "`$mem_alloc='a'*200MB" -PassThru
     # Wait until all memory (400 MB) will be allocated.
     # 400 = 2bytes per simbol * 200 symbols
