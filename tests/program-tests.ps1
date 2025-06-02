@@ -34,6 +34,10 @@ $CMDName = "cmd"
 
 $NotepadFullName = "Notepad.exe"
 $NotepadName = "Notepad"
+
+$PWSHFullName = "powershell.exe"
+$PWSHName = "powershell"
+
 function Start-Proc($Proc) {
     $app = Start-Process $Proc -PassThru
     Write-Output "$Proc started with PID $app.Id"
@@ -64,9 +68,25 @@ function Test-RunProcessAndClose {
     EvalTest $MyInvocation.MyCommand.Name ($outputCMD1 -and  !$outputCMD2)
 }
 
+function Test-MemUsage200MB {
+    $pwsh = Start-Process $PWSHFullName -ArgumentList '-NoExit', '-Command', "`$mem_alloc='a'*200MB" -PassThru
+    # Wait until all memory (400 MB) will be allocated.
+    # 400 = 2bytes per simbol * 200 symbols
+    sleep 2
+    $outputPWSH = Get-ProcessTable | findstr $PWSHName | findstr $pwsh.Id
+
+    # Extract memory usage of the new created process
+    $memUsage = Write-Output $outputPWSH | ForEach-Object {
+        ($_ -split '\s+')[4] -as [double]
+    }
+
+    EvalTest $MyInvocation.MyCommand.Name ($memUsage -ge  400)
+}
+
 # Run test cases
 Test-NewProcessRun
 Test-2DifferentProcessesRun
 Test-RunProcessAndClose
+Test-MemUsage400MB
 
 exit $TestResult
