@@ -72,10 +72,9 @@ function Test-RunProcessAndClose {
 }
 
 function Test-MemUsage200MB {
-    $pwsh = Start-Process $PWSHFullName -ArgumentList '-NoExit', '-Command', "`$mem_alloc='a'*100MB" -PassThru
+    $pwsh = Start-Process $PWSHFullName -ArgumentList '-NoExit', '-Command', "[void]('x' * (100 * 1024 * 1024)); Start-Sleep 10" -PassThru
     # Wait until all memory (200 MB) will be allocated.
     # 200 = 2bytes per simbol * 100 symbols
-    sleep 4
     $outputPWSH = Get-ProcessTable | findstr $PWSHName | findstr $pwsh.Id
 
     # Extract memory usage of the new created process
@@ -83,8 +82,9 @@ function Test-MemUsage200MB {
         ($_ -split '\s+')[4] -as [double]
     }
     Write-Output $outputPWSH
+    Write-Output $memUsage
 
-    EvalTest $MyInvocation.MyCommand.Name ($memUsage -ge  200)
+    EvalTest $MyInvocation.MyCommand.Name ($memUsage -ge 200)
     Stop-Process -Force -Id $pwsh.Id
 }
 
