@@ -1,4 +1,4 @@
-name: Run sys-info Tests
+name: Run sys-info Advaned Tests
 
 on:
   push:
@@ -17,4 +17,4 @@ jobs:
     - name: Run tests
       shell: pwsh
       run: |
-        ./tests/program-tests.ps1
+        ./tests/program-advanced-tests.ps1
