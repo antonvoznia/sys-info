@@ -1,4 +1,4 @@
-name: Run PowerShell Tests
+name: Run sys-info Tests
 
 on:
   push:
