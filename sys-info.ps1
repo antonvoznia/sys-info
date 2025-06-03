@@ -54,7 +54,12 @@ function Get-ProcessWithUser {
 
 
 function Get-ProcessInfoTable {
-    Get-ProcessWithUser | Format-Table -AutoSize
+    Get-ProcessWithUser | Format-Table -Property `
+        @{Label = "PId"; Expression = { "{0,-8}" -f $_.Id } },
+        @{Label = "Name";  Expression = { $_.Name.PadRight(25) } },
+        @{Label = "Mem";   Expression = { "{0,-8:N2}" -f $_.Mem } },
+        @{Label = "CPU";   Expression = { "{0,-8:N2}" -f $_.CPU } },
+        @{Label = "User";  Expression = { $_.User.PadRight(25) } } `
 }
 
 function Get-ProcessInfoJson {
