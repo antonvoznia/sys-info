@@ -1,4 +1,4 @@
-name: Run PowerShell Tests
+name: Run Sanity Tests
 
 on:
   push:
