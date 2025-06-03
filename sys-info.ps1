@@ -40,8 +40,10 @@ function Get-ProcessWithUser {
     # Get live process data
     $processes = Get-Process -IncludeUserName | Sort-Object -Property CPU -Descending
 
+    # Create new object with necessary data only.
+    # CPU - time passed since the process was created in seconds.
+    # MEM - memory usage in megabytes
     foreach ($proc in $processes) {
-
         [PSCustomObject]@{
             Id         = $proc.Id
             Name       = $proc.ProcessName
@@ -53,6 +55,7 @@ function Get-ProcessWithUser {
 }
 
 
+# Get processes and align in table.
 function Get-ProcessInfoTable {
     Get-ProcessWithUser | Format-Table -Property `
         @{Label = "PId"; Expression = { "{0,-8}" -f $_.Id } },
@@ -62,9 +65,11 @@ function Get-ProcessInfoTable {
         @{Label = "User";  Expression = { $_.User.PadRight(25) } } `
 }
 
+# Get processes in JSON format.
 function Get-ProcessInfoJson {
     Get-ProcessWithUser | ConvertTo-Json
 }
+
 function Show-Help {
     @"
 sys-info.ps1 [-Help] [-Verbose] [-Json] [-OutputFile <path>]
@@ -74,12 +79,12 @@ Options:
   -OutputFile   Write results to the given file
   -Json         Output in JSON format
 "@
-    exit 0
 }
 
 function Main {
     if ($Help) {
         Show-Help
+        exit 0
     }
 
     if ($Json) {
